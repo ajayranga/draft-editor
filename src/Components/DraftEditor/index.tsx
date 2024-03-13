@@ -1,15 +1,46 @@
-import { useState } from 'react';
-import { Editor, EditorState } from 'draft-js';
-import 'draft-js/dist/Draft.css';
+import { useCallback, useEffect } from 'react';
 
-const DraftEditor = () => {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-  console.log({ editorState });
+import { Editor, EditorState, RichUtils, convertFromRaw } from 'draft-js';
+
+const DraftEditor = ({
+  editorState,
+  setEditorState,
+}: {
+  editorState: EditorState;
+  setEditorState: React.Dispatch<React.SetStateAction<EditorState>>;
+}) => {
+  const handleKeyBoardShortCuts = (
+    command: string,
+    editorState: EditorState
+  ) => {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      setEditorState(newState);
+      return 'handled';
+    }
+    return 'not-handled';
+  };
+
+  const loadFromLocalStorage = useCallback(() => {
+    const rawContentState = localStorage.getItem('editorState');
+    if (rawContentState) {
+      const contentState = convertFromRaw(JSON.parse(rawContentState));
+      setEditorState(EditorState.createWithContent(contentState));
+    }
+  }, [setEditorState]);
+
+  useEffect(() => {
+    loadFromLocalStorage();
+  }, [loadFromLocalStorage]);
+
   return (
     <section className='border border-white rounded-lg my-2'>
-      <Editor editorState={editorState} onChange={setEditorState} />;
+      <Editor
+        editorState={editorState}
+        onChange={setEditorState}
+        handleKeyCommand={handleKeyBoardShortCuts}
+      />
+      ;
     </section>
   );
 };
