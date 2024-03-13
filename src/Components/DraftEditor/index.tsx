@@ -1,6 +1,5 @@
-import { useCallback, useEffect } from 'react';
-
 import { Editor, EditorState, RichUtils, convertFromRaw } from 'draft-js';
+import { useEffect } from 'react';
 
 const DraftEditor = ({
   editorState,
@@ -21,7 +20,11 @@ const DraftEditor = ({
     return 'not-handled';
   };
 
-  const loadFromLocalStorage = useCallback(() => {
+  const handleChange = (editorState: EditorState) => {
+    setEditorState(editorState);
+  };
+
+  useEffect(() => {
     const rawContentState = localStorage.getItem('editorState');
     if (rawContentState) {
       const contentState = convertFromRaw(JSON.parse(rawContentState));
@@ -29,16 +32,13 @@ const DraftEditor = ({
     }
   }, [setEditorState]);
 
-  useEffect(() => {
-    loadFromLocalStorage();
-  }, [loadFromLocalStorage]);
-
   return (
-    <section className='border border-white rounded-lg my-2'>
+    <section className='border-4 p-3 min-h-[80vh] border-white rounded-lg my-2'>
       <Editor
         editorState={editorState}
-        onChange={setEditorState}
+        onChange={handleChange}
         handleKeyCommand={handleKeyBoardShortCuts}
+        placeholder='Type some text'
       />
       ;
     </section>
