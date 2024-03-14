@@ -1,9 +1,9 @@
 const Header = ({ saveData }: { saveData: () => void }) => {
   return (
-    <main className='border-b border-gray-200 bg-white px-4 py-5 sm:px-6'>
+    <main className='px-4 py-5 sm:px-6'>
       <div className='-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap'>
         <div className='ml-4 mt-4'>
-          <h2 className='text-base font-semibold leading-6 text-gray-900'>
+          <h2 className='text-base font-semibold leading-6 text-white'>
             Demo Editor By Ajay R
           </h2>
         </div>
@@ -11,7 +11,7 @@ const Header = ({ saveData }: { saveData: () => void }) => {
           <button
             onClick={saveData}
             type='button'
-            className='relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'>
+            className='rounded-md bg-indigo-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500'>
             Save
           </button>
         </div>
